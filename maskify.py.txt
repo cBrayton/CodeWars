@@ -1,0 +1,4 @@
+def maskify(cc):
+## Returns a masked string that only shows the final four characters
+    return "#"*(len(cc)-4)+cc[-4:]
+    pass

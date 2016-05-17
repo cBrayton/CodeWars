@@ -1,0 +1,17 @@
+def validate(n):
+# Takes an integer n and checks to see if it is a valid credit card number
+# Valid credit card numbers can be checked by doubling every other digit such that the last digit is never doubled
+# Then any that are over 9 get 9 subtracted from them
+# The resulting digits are then added together, and the number n is a valid credit card number if this final sum is a multiple of 10 
+# Returns a non-zero digit (1-9) if it is a valid cc number and 0 if it is not
+    number_string = str(n)
+    numbers = []
+    sum = 0
+    for index in range(len(number_string)):
+        numbers.append(int(number_string[index]))
+        if len(number_string)%2 == index%2:
+            numbers[index] = (numbers[index]*2)
+            if numbers[index] > 9:
+                numbers[index] -= 9
+        sum += numbers[index]
+    return sum%10 == 0
