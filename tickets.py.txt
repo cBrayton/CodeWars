@@ -1,0 +1,22 @@
+def tickets(people):
+# Takes an array of integers where each value can be 25, 50, or 100
+# Returns "YES" if a cashier with no starting change can make change for every value in the array, if not returns "NO"
+    num_25 = 0
+    num_50 = 0
+    for x in xrange(3):
+        if people[x] > 25*(x+1):
+            return "NO"
+    for person in people:
+        if person == 25:
+            num_25 += 1
+        elif person == 50:
+            num_25 -= 1
+            num_50 += 1
+        elif num_50 > 0:
+            num_25 -= 1
+            num_50 -= 1
+        else:
+            num_25 -= 3
+    if num_25 < 0 or num_50 < 0:
+        return "NO"
+    return "YES"
