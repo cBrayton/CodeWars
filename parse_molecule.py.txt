@@ -1,0 +1,41 @@
+def parse_molecule (formula):
+# Takes a molecular formula as a string in the form "K4[ON(SO3)2]2"
+# Returns the number of atoms of each element in the molecule
+# e.g. parse_molecule("K4[ON(SO3)2]2") = {K: 4, O: 14, N: 2, S: 4} 
+    atomDict = {}
+    #Standardize brackets to just parentheses
+    formula = formula.replace("[","(").replace("]",")").replace("{","(").replace("}",")")
+    #Remove all parentheses, and duplicate the contents of each set of parentheses the indicated number of times
+    while formula.rfind("(") > -1:
+        left_paren = formula.rfind("(")
+        right_paren = formula.find(")",left_paren)
+        if formula[right_paren+1].isdigit():
+            formula = formula[:left_paren] + formula[left_paren+1:right_paren]*max(1,int(formula[right_paren+1])) + formula[right_paren+2:]
+        else:    
+            formula = formula[:left_paren] + formula[left_paren+1:right_paren] + formula[right_paren+1:]
+    for x in xrange(len(formula)):
+        #Check for two letter atomic symbol
+        if x+1 < len(formula) and formula[x+1].islower():
+            atomDict[formula[x:x+2]] = atomDict.setdefault(formula[x:x+2],0) + 1
+        #Ignore lowercase letters, they're dealt with above
+        elif formula[x].islower():
+            continue
+        #Check for one letter atomic symbol
+        elif formula[x].isalpha():
+            atomDict[formula[x]] = atomDict.setdefault(formula[x],0) + 1
+        #Check for digits
+        elif formula[x].isdigit():
+            #Ignore second all digits but the first in a number
+            if formula[x-1].isdigit():
+                continue
+            i = 1
+            #Determine how long the number is
+            while x+i < len(formula) and formula[x+i].isdigit():
+                i += 1
+                print i
+            #Get the symbol corresponding to this number
+            if x-2 >= 0 and formula[x-1].islower():
+                atomDict[formula[x-2:x]] += int(formula[x:x+i])-1
+            else:
+                atomDict[formula[x-1]] += int(formula[x:x+i])-1
+    return atomDict
