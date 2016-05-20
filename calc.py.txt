@@ -1,0 +1,17 @@
+def calc(expr):
+# A reverse polish notation calculator
+# Takes a string of numbers and the symbols +, -, /, * all separated by spaces
+# Returns the output of that equation
+# e.g. calc("4 1 2 + 3 * + 1 -") = 4 + ((1+2) * 3) - 1 = 12
+    if expr == "":
+        return 0
+    inputs = expr.split()
+    stack = []
+    for val in inputs:
+        if val == "+" or val == "-" or val == "*" or val == "/":
+            a = stack.pop()
+            b = stack.pop()
+            stack.append(eval(str(b) + val + str(a)))
+        else:
+            stack.append(val)
+    return float(stack.pop())
