@@ -1,0 +1,13 @@
+def count_change(money, coins):
+# Takes an integer money and an array of integers as coin denominations
+# Returns the number of combinations that the given denominations can be combined to generate the given money amount
+# e.g. count_change(11, [5,7]) = 0; count_change(4, [1, 2]) = 3 (1,1,1,1; 1,1,2; 2,2)
+    if money <= 0 or len(coins) == 0:
+        return 0
+    count = 0
+    coins.sort(reverse=True)
+    if money%coins[0] == 0:
+        count += 1
+    for x in range(int(money/coins[0]+1)):
+        count += count_change(money-coins[0]*x, coins[1:])
+    return count
