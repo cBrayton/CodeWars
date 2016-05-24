@@ -1,0 +1,25 @@
+from math import pi
+import string
+
+def converter(n, decimals=0, base=pi):
+    """takes n in base 10 and returns it in any base as a string (default is pi)
+    with optional x decimals"""
+    dictionary = dict(enumerate(string.ascii_uppercase,10))
+    tempVal = n
+    digits = decimals
+    val = ""
+    if n < 0:
+        val = "-"
+    while round(tempVal/base, 10) >= 1 or round(tempVal/base, 10) <= -1:
+        tempVal = tempVal/base
+        digits += 1
+    for x in range(digits,-1,-1):
+        if x - decimals == -1:
+            val = val+"."
+        digit = int(n/pow(base,(x-decimals)))
+        if abs(digit) >= 10:
+            val = val+dictionary[abs(digit)]
+        else:
+            val = val+str(abs(digit))
+        n = n-(digit*pow(base,(x-decimals)))
+    return val
