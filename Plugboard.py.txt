@@ -1,0 +1,32 @@
+class Plugboard(object):
+    '''
+    Simulates the plugboard of an enigma machine, which substitutes pairs
+    of letters for each other.
+    Initialized with a string of letters, where each pair of letters
+    represents a wire swapping those letters in the encoded version.
+    Process takes a character and returns the encoded letter.
+    '''
+    def __init__(self, wires=""):
+        """
+        wires: This is the mapping of pairs of characters
+        """
+        # Only 10 wires allowed and only in pairs
+        if len(wires) > 20 or len(wires)%2 == 1:
+            raise ValueError
+        self.wire_map = {}
+        for idx in range(len(wires)):
+            # Each letter can only have one wire
+            if wires[idx] in self.wire_map:
+                raise ValueError
+            if idx%2 == 1:
+                self.wire_map[wires[idx]] = wires[idx-1]
+            else:
+                self.wire_map[wires[idx]] = wires[idx+1]
+        pass
+                
+    def process(self, c):
+        """
+        c: The single character to process
+        """
+        if c in self.wire_map: return self.wire_map[c]
+        return c
